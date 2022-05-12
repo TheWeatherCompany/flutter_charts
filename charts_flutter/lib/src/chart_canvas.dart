@@ -13,8 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:ui' as ui show Gradient, Shader;
 import 'dart:math' show Point, Rectangle, max;
+import 'dart:ui' as ui show Gradient, Shader;
+
 import 'package:charts_common/common.dart' as common
     show
         BlendMode,
@@ -30,12 +31,13 @@ import 'package:charts_common/common.dart' as common
         TextElement,
         TextDirection;
 import 'package:flutter/material.dart';
-import 'text_element.dart' show TextElement;
+
 import 'canvas/circle_sector_painter.dart' show CircleSectorPainter;
 import 'canvas/line_painter.dart' show LinePainter;
 import 'canvas/pie_painter.dart' show PiePainter;
 import 'canvas/point_painter.dart' show PointPainter;
 import 'canvas/polygon_painter.dart' show PolygonPainter;
+import 'text_element.dart' show TextElement;
 
 class ChartCanvas implements common.ChartCanvas {
   /// Pixels to allow to overdraw above the draw area that fades to transparent.
@@ -168,6 +170,31 @@ class ChartCanvas implements common.ChartCanvas {
       case common.FillPatternType.forwardHatch:
         _drawForwardHatchPattern(fillRectBounds, canvas,
             fill: fill!, drawAreaBounds: drawAreaBounds);
+        break;
+
+      case common.FillPatternType.gradient:
+        var strokeColor = stroke!;
+        var fillColor = fill!;
+        _paint.color = new Color.fromARGB(
+            fillColor.a, fillColor.r, fillColor.g, fillColor.b);
+        _paint.style = PaintingStyle.fill;
+        _paint.shader = ui.Gradient.linear(
+          new Offset(
+            bounds.left.toDouble(),
+            bounds.top.toDouble(),
+          ),
+          new Offset(
+            bounds.left.toDouble(),
+            bounds.top.toDouble() + bounds.height,
+          ),
+          [
+            new Color.fromARGB(
+                strokeColor.a, strokeColor.r, strokeColor.g, strokeColor.b),
+            new Color.fromARGB(
+                fillColor.a, fillColor.r, fillColor.g, fillColor.b),
+          ],
+        );
+        canvas.drawRect(_getRect(fillRectBounds), _paint);
         break;
 
       case common.FillPatternType.solid:
