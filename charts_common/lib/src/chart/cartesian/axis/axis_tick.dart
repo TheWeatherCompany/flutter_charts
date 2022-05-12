@@ -44,6 +44,7 @@ class AxisTicks<D> extends Tick<D> implements Comparable<AxisTicks<D>> {
         super(
             value: tick.value,
             textElement: tick.textElement,
+            isBold: tick.isBold,
             locationPx: tick.locationPx,
             labelOffsetPx: tick.labelOffsetPx);
 

@@ -82,6 +82,7 @@ class StaticTickProvider<D> extends TickProvider<D> {
             value: spec.value,
             textElement: graphicsFactory
                 .createTextElement(spec.label ?? formattedValues[i]),
+            isBold: spec.isBold,
             locationPx: scale[spec.value]?.toDouble());
         final style = spec.style;
         if (style != null) {

@@ -157,12 +157,17 @@ class SmallTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
     final tickStart = tickPositions.first;
     final tickEnd = tickPositions.last;
 
+    var strokeWidth = lineStyle.strokeWidth;
+    if (tick.isBold != null && tick.isBold!) {
+      strokeWidth += 1;
+    }
+
     canvas.drawLine(
       points: [tickStart, tickEnd],
       dashPattern: lineStyle.dashPattern,
       fill: lineStyle.color,
       stroke: lineStyle.color,
-      strokeWidthPx: lineStyle.strokeWidth.toDouble(),
+      strokeWidthPx: strokeWidth.toDouble(),
     );
 
     drawLabel(canvas, tick,
@@ -192,9 +197,17 @@ class SmallTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
         break;
       case AxisOrientation.bottom:
         final x = tickLocationPx;
-        tickStart = Point(x, axisBounds.top);
-        tickEnd = Point(x, axisBounds.top + tickLength);
+
+        var offset = 2;
+        if (tick.isBold!) {
+          offset = 0;
+          tickLength += 4;
+        }
+
+        tickStart = Point(x, axisBounds.top + offset);
+        tickEnd = Point(x, axisBounds.top + tickLength + offset);
         break;
+
       case AxisOrientation.right:
         final y = tickLocationPx;
         tickStart = Point(axisBounds.left, y);

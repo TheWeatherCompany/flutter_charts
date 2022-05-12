@@ -20,6 +20,7 @@ import 'axis_spec.dart' show TextStyleSpec;
 /// Used to define a tick that is used by static tick provider.
 class TickSpec<D> {
   final D value;
+  final bool? isBold;
   final String? label;
   final TextStyleSpec? style;
 
@@ -28,5 +29,5 @@ class TickSpec<D> {
   /// of the axis.
   /// [style] optional style for this tick. If not set, uses the style of the
   /// axis.
-  const TickSpec(this.value, {this.label, this.style});
+  const TickSpec(this.value, {this.isBold, this.label, this.style});
 }

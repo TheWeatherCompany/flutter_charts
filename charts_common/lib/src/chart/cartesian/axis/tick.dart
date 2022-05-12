@@ -25,6 +25,8 @@ class Tick<D> {
   /// [TextElement] for this tick.
   TextElement? textElement;
 
+  final bool? isBold;
+
   /// Location on the axis where this tick is rendered (in canvas coordinates).
   double? locationPx;
 
@@ -37,6 +39,7 @@ class Tick<D> {
   Tick(
       {required this.value,
       required this.textElement,
+      this.isBold,
       this.locationPx,
       this.labelOffsetPx});
 
